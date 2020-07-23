@@ -72,7 +72,8 @@ class BurgerBuilder extends Component {
                         disabled={disabledInfo}
                         purchasable={this.updatePurchaseState(this.props.ings)}
                         ordered={this.purchaseHandler}
-                        price={this.props.price} />
+                        price={this.props.price}
+                        addToCart={this.props.onAddCart} />
                 </Aux>
             );
             orderSummary = <OrderSummary
@@ -106,6 +107,7 @@ const mapDispatchToProps = dispatch => {
         onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients: () => dispatch(actions.initIngredients()),
         onInitPurchase: () => dispatch(actions.purchaseInit()),
+        onAddCart: (ings) => dispatch(actions.addBasket(ings))
     }
 }
 

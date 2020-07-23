@@ -1,10 +1,10 @@
 import * as actionTypes from './actionTypes';
 
-export const addBasket = (productName) => {
+export const addBasket = (orderData) => {
     return (dispatch) => {
         dispatch({
             type: actionTypes.ADD_PRODUCT_BASKET,
-            payload: productName
+            order: orderData
         })
     }
 };

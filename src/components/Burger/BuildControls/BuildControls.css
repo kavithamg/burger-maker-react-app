@@ -38,6 +38,14 @@
     animation: enable 0.3s linear;
 }
 
+.btn-block{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
 @keyframes enable {
     0% {
         transform: scale(1);

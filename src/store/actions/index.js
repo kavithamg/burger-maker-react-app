@@ -9,3 +9,10 @@ export {
     purchaseInit,
     fetchOrders
 } from './order'
+
+
+export {
+    getBasketCount,
+    addBasket,
+    
+} from './cart'
