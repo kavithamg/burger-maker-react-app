@@ -13,6 +13,7 @@ const CartProducts = (props) => {
                     productId={product.id}
                     quantity={product.quantity}
                     quantityAction={props.quantityAction}
+                    deleteAction={props.deleteAction}
                 />
             )
         })
@@ -20,6 +21,9 @@ const CartProducts = (props) => {
             <div>
                 <p><strong>Total cart price: </strong>USD {props.cartPrice.toFixed(2)}</p>
                 {products}
+                <br />
+                <button onClick={props.deletePurchase}>Delete order</button>
+                <button onClick={props.confirmPurchase}>Confirm order</button>
             </div>
         )
 }

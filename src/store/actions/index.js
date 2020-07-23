@@ -15,5 +15,6 @@ export {
     getBasketCount,
     addBasket,
     productQuantity,
-    clearProduct
+    clearProduct,
+    clearCart
 } from './cart'

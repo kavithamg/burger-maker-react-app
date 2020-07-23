@@ -9,7 +9,13 @@ import * as actions from '../../store/actions/index'
 class Checkout extends Component {
 
     checkoutCancelledHandler = () => {
-        this.props.history.goBack();
+        if(this.props.cart.cart.length > 0)
+        {
+            this.props.clearCart();
+            this.props.history.push('/')
+        }else{
+            this.props.history.goBack();
+        }        
     }
 
     checkoutContinuedHandler = () => {
@@ -20,11 +26,12 @@ class Checkout extends Component {
         let summary = <Redirect to="/" />
         if(this.props.ings){
             const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+            let ingredients = this.props.cart.cart.length > 0 ? this.props.cart.cart[0].ingredients : this.props.ings;
             summary = (
                 <div>
                     {purchasedRedirect}
                 <CheckoutSummary 
-                    ingredients={this.props.ings}
+                    ingredients={ingredients}
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinued={this.checkoutContinuedHandler}/>
                 <Route 
@@ -40,8 +47,15 @@ class Checkout extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
-        purchased: state.order.purchased
+        purchased: state.order.purchased,
+        cart: state.cart
     }
 };
 
-export default connect(mapStateToProps)(Checkout);
+const mapDispatchToProps = dispatch => {
+    return {
+        clearCart: () => dispatch(actions.clearCart()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

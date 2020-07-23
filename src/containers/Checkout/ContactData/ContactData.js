@@ -101,12 +101,29 @@ class ContactData extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
-        const order = {
-            ingredients: this.props.ings,
-            price: this.props.price,
-            orderData: formData
+
+        if(this.props.cartLength > 0){
+            for(let index = 0; index < this.props.cartLength; index++){
+                let order = {
+                    ingredients: this.props.cart[index].ingredients,
+                    price: this.props.cart[index].price,
+                    orderData: formData
+                }
+
+                this.props.onOrderBurger(order)
+            }
+
+            this.props.clearCart();
+        }else{
+            const order = {
+                ingredients: this.props.ings,
+                price: this.props.price,
+                orderData: formData
+            }
+            this.props.onOrderBurger(order)
         }
-        this.props.onOrderBurger(order)
+
+        
     }
     
     checkValidity(value, rules) {
@@ -159,7 +176,7 @@ class ContactData extends Component {
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
-    render () {
+    render () {        
         const formElementsArray = [];
         for (let key in this.state.orderForm) {
             formElementsArray.push({
@@ -199,13 +216,16 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading
+        loading: state.order.loading,
+        cart: state.cart.cart,
+        cartLength: state.cart.cart.length
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
+        clearCart: () => dispatch(actions.clearCart()),
     }
 }
 

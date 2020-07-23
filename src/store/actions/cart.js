@@ -34,3 +34,11 @@ export const clearProduct = (product_id) => {
         });
     }
 }
+
+export const clearCart = () => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.CLEAR_CART
+        });
+    }
+}

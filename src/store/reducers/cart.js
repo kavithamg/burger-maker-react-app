@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import {sortCartByCreatedAt} from '../utility'
 
 const initialState = {
     cart: [],
@@ -8,6 +9,10 @@ const initialState = {
 
 
 const reducer = ( state = initialState, action ) => {
+    let oldProduct = {};
+    let oldCart = {};
+    let newCart = {};
+
     switch ( action.type ) {
         case actionTypes.ADD_PRODUCT_BASKET:
             return {
@@ -21,41 +26,49 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
             }
         case actionTypes.ADD_QUANTITY:
-            let mappedProduct = state.cart.map(value => {
-                if(value.id === action.productId)
-                {
-                    value.quantity = value.quantity + 1;
-                }
+            oldProduct = state.cart.find(value => value.id === action.productId)
+            oldProduct.quantity = oldProduct.quantity + 1;
+            oldProduct.price = (oldProduct.constPrice * oldProduct.quantity).toFixed(2);
 
-                return value;
-            });
-            let currentCartCount = state.cartCount + 1;
-            let currentCartCost = state.cartCost * currentCartCount
+            oldCart = state.cart.filter(value => value.id !== action.productId);
+            newCart = sortCartByCreatedAt([...oldCart, oldProduct]);
             return {
                 ...state,
-                cartCount: currentCartCount,
-                cartCost: currentCartCost
+                cartCount: state.cartCount + 1,
+                cartCost: state.cartCost + oldProduct.constPrice,
+                cart: newCart
             }
         case actionTypes.REMOVE_QUANTITY:
-            let filteredProduct = state.cart.map(value => {
-                if(value.id === action.productId)
-                {
-                    value.quantity = value.quantity - 1;
-                }
+            oldProduct = state.cart.find(value => value.id === action.productId)
+            oldProduct.quantity = oldProduct.quantity - 1;
+            oldProduct.price = (oldProduct.constPrice * oldProduct.quantity).toFixed(2);
 
-                return value;
-            });
+            oldCart = state.cart.filter(value => value.id !== action.productId);
+            newCart = sortCartByCreatedAt([...oldCart, oldProduct]);
 
             return {
                 ...state,
                 cartCount: state.cartCount - 1,
-
+                cartCost: state.cartCost - oldProduct.constPrice,
+                cart: newCart
             }
         case actionTypes.CLEAR_PRODUCT:
-            let newProductList = state.cart.filter(value => value.id !== action.productId);
+            oldProduct = state.cart.find(value => value.id === action.productId);
+            oldCart = state.cart.filter(value => value.id !== action.productId);
+            newCart = sortCartByCreatedAt(oldCart);
             return {
                 ...state,
-                cart: newProductList
+                cartCount: state.cartCount - oldProduct.quantity,
+                cartCost: state.cartCost - parseFloat(oldProduct.price),
+                cart: newCart
+            }
+        case actionTypes.CLEAR_CART:
+
+            return {
+                ...state,
+                cart: [],
+                cartCost: 0,
+                cartCount: 0
             }
         default: return state;
     }

@@ -53,7 +53,7 @@ class BurgerBuilder extends Component {
     }
 
     cartHandler = () => {
-        let burgerId = this.props.cartCount + 1;
+        let burgerId = this.props.cartLength + 1;
 
         let productData = {
             totalCost: this.props.price,
@@ -63,18 +63,19 @@ class BurgerBuilder extends Component {
                 ingredients: {
                     ...this.props.ings
                 },
-                price: this.props.price,
+                constPrice: this.props.price,
+                price: this.props.price.toFixed(2),
                 quantity: 1,
-                inCart: true
+                inCart: true,
+                createdAt: Date.now()
             }
         };
 
         this.props.onAddCart(productData);
+        this.props.onInitIngredients();
     }
 
     render () {
-        console.log(this.props.currentCart);
-
         const disabledInfo = {
             ...this.props.ings
         };
@@ -121,6 +122,7 @@ const mapStateToProps = state => {
         price: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error,
         cartCount: state.cart.cartCount,
+        cartLength: state.cart.cart.length,
         currentCart: state.cart
     };
 }

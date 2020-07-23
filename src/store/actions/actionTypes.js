@@ -17,3 +17,4 @@ export const GET_BASKET_COUNT = 'GET_BASKET_COUNT';
 export const ADD_QUANTITY = 'ADD_QUANTITY';
 export const REMOVE_QUANTITY = 'REMOVE_QUANTITY';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
+export const CLEAR_CART = 'CLEAR_CART';
