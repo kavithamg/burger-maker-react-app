@@ -52,7 +52,26 @@ class BurgerBuilder extends Component {
         this.props.history.push('/checkout')
     }
 
+    cartHandler = () => {
+        let burgerId = this.props.cartCount + 1;
+
+        let productData = {
+            totalCost: this.props.price,
+            product: {
+                id: "brugermkr_" + burgerId,
+                ingredients: {
+                    ...this.props.ings
+                },
+                price: this.props.price
+            }
+        };
+
+        this.props.onAddCart(productData);
+    }
+
     render () {
+        console.log(this.props.currentCart);
+
         const disabledInfo = {
             ...this.props.ings
         };
@@ -73,7 +92,7 @@ class BurgerBuilder extends Component {
                         purchasable={this.updatePurchaseState(this.props.ings)}
                         ordered={this.purchaseHandler}
                         price={this.props.price}
-                        addToCart={this.props.onAddCart} />
+                        addToCart={this.cartHandler} />
                 </Aux>
             );
             orderSummary = <OrderSummary
@@ -97,7 +116,9 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        cartCount: state.cart.cartCount,
+        currentCart: state.cart
     };
 }
 
@@ -107,7 +128,7 @@ const mapDispatchToProps = dispatch => {
         onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients: () => dispatch(actions.initIngredients()),
         onInitPurchase: () => dispatch(actions.purchaseInit()),
-        onAddCart: (ings) => dispatch(actions.addBasket(ings))
+        onAddCart: (product) => dispatch(actions.addBasket(product))
     }
 }
 

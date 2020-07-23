@@ -34,7 +34,7 @@ const buildControls = (props) => (
             <button 
                 className="OrderButton"
                 disabled={!props.purchasable}
-                onClick={() => props.addToCart()}>ADD TO CART
+                onClick={props.addToCart}>ADD TO CART
             </button>
         </div>
     </div>

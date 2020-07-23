@@ -10,11 +10,11 @@ const initialState = {
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.ADD_PRODUCT_BASKET:
-            console.log(state)
             return {
                 ...state,
                 cartCount: state.cartCount + 1,
-                cart: state.cart.concat(action.order)
+                cartCost: state.cartCost + action.product.totalCost,
+                cart: state.cart.concat(action.product.product)
             }
         case actionTypes.GET_BASKET_COUNT:
             return {
