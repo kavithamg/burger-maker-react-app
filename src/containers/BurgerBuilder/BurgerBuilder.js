@@ -59,10 +59,13 @@ class BurgerBuilder extends Component {
             totalCost: this.props.price,
             product: {
                 id: "brugermkr_" + burgerId,
+                name: "Burger No: " + burgerId,
                 ingredients: {
                     ...this.props.ings
                 },
-                price: this.props.price
+                price: this.props.price,
+                quantity: 1,
+                inCart: true
             }
         };
 

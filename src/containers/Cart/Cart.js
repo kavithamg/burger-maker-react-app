@@ -14,6 +14,7 @@ class Cart extends Component{
                 <CartProducts
                     cartPrice={this.props.totalCartPrice}
                     cartProducts={this.props.products}
+                    quantityAction={this.props.quantityAction}
                 />
             </div>
         )
@@ -24,9 +25,18 @@ const mapStateToProps = state => {
     return {
         totalCartPrice: state.cart.cartCost,
         products: state.cart.cart,
+        cartCount: state.cart.cartCount,
         currentCart: state.cart
     };
 }
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = dispatch => {
+    return {
+        quantityAction: (action, productId) => dispatch(actions.productQuantity(action, productId)),
+        deleteProduct: (productId) => dispatch(actions.productQuantity(productId))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
 

@@ -21,7 +21,7 @@ export const productQuantity = (action, product_id) => {
     return (dispatch) => {
         dispatch({
             type: action === 'add' ? actionTypes.ADD_QUANTITY : actionTypes.REMOVE_QUANTITY,
-            payload: product_id
+            productId: product_id
         });
     }
 }
@@ -30,7 +30,7 @@ export const clearProduct = (product_id) => {
     return(dispatch) => {
         dispatch({
             type: actionTypes.CLEAR_PRODUCT,
-            payload: product_id
+            productId: product_id
         });
     }
 }

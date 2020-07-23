@@ -7,9 +7,12 @@ const CartProducts = (props) => {
                 <ProductCard
                     key={product.id}
                     count={index + 1}
+                    name={product.name}
                     ingredients={product.ingredients}
                     price={product.price}
                     productId={product.id}
+                    quantity={product.quantity}
+                    quantityAction={props.quantityAction}
                 />
             )
         })
